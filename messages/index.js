@@ -22,6 +22,7 @@ var bot = new builder.UniversalBot(connector, [
     function(session, results) {
         if(results.response) {
             var choice = results.response;
+            console.log("Choice: " + choice);
             if(choice == "FAQ")
                 session.beginDialog("faqDialog");
             else if(choice == "Contact Support")
@@ -29,6 +30,7 @@ var bot = new builder.UniversalBot(connector, [
         }else{
             session.send("Nothing selected");
         }
+        session.endDialog();
     }
 ]);
 bot.localePath(path.join(__dirname, './locale'));
