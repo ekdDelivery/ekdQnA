@@ -17,7 +17,7 @@ var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure
 
 var bot = new builder.UniversalBot(connector, [
     function(session) {
-        builder.Prompt.choice(session, "What do you want to do?", "FAQ|Contact Support", builder.ListStyle.button);
+        builder.Prompts.choice(session, "What do you want to do?", "FAQ|Contact Support", builder.ListStyle.button);
     },
     function(session, results) {
         if(results.response) {
