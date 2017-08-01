@@ -15,7 +15,22 @@ var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure
     openIdMetadata: process.env['BotOpenIdMetadata']
 });
 
-var bot = new builder.UniversalBot(connector);
+var bot = new builder.UniversalBot(connector, [
+    function(session) {
+        builder.Prompt.choice(session, "What do you want to do?", "FAQ|Contact Support", builder.ListStyle.button);
+    },
+    function(session, results) {
+        if(results.response) {
+            var choice = results.response;
+            if(choice == "FAQ")
+                session.beginDialog("faqDialog");
+            else if(choice == "Contact Support")
+                session.beginDialog("contactDialog");
+        }else{
+            session.send("Nothing selected");
+        }
+    }
+]);
 bot.localePath(path.join(__dirname, './locale'));
 
 var recognizer = new builder_cognitiveservices.QnAMakerRecognizer({
@@ -29,7 +44,10 @@ var basicQnAMakerDialog = new builder_cognitiveservices.QnAMakerDialog({
 );
 
 
-bot.dialog('/', basicQnAMakerDialog);
+bot.dialog('faqDialog', basicQnAMakerDialog);
+bot.dialog('contactDialog', function(session) {
+    session.send("You selected to contact support");
+});
 
 if (useEmulator) {
     var restify = require('restify');
