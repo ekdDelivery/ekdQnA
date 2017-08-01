@@ -20,9 +20,9 @@ var bot = new builder.UniversalBot(connector, [
         builder.Prompts.choice(session, "What do you want to do?", "FAQ|Contact Support", builder.ListStyle.button);
     },
     function(session, results) {
-        session.send(results.response);
+        session.send(results.response.entity);
         if(results.response) {
-            var selection = results.response;
+            var selection = results.response.entity;
             if(selection == "FAQ")
                 session.beginDialog("faqDialog");
             else if(selection == "Contact Support")
