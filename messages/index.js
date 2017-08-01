@@ -20,12 +20,12 @@ var bot = new builder.UniversalBot(connector, [
         builder.Prompts.choice(session, "What do you want to do?", "FAQ|Contact Support", builder.ListStyle.button);
     },
     function(session, results) {
-        session.send(results.response.entity);
+        session.send(results.response.index);
         if(results.response) {
-            var selection = results.response.entity;
-            if(selection == "FAQ")
+            var selection = results.response.index;
+            if(selection === 1)
                 session.beginDialog("faqDialog");
-            else if(selection == "Contact Support")
+            else if(selection === 2)
                 session.beginDialog("contactDialog");
         }
     }
@@ -46,6 +46,7 @@ var basicQnAMakerDialog = new builder_cognitiveservices.QnAMakerDialog({
 bot.dialog('faqDialog', basicQnAMakerDialog);
 bot.dialog('contactDialog', function(session) {
     session.send("You selected to contact support");
+    session.endDialog();
 });
 
 if (useEmulator) {
