@@ -22,15 +22,12 @@ var bot = new builder.UniversalBot(connector, [
     function(session, results) {
         console.log(results);
         if(results.response) {
-            var choice = results.response;
-            if(choice == "FAQ")
+            var selection = results.response;
+            if(selection == "FAQ")
                 session.beginDialog("faqDialog");
-            else if(choice == "Contact Support")
+            else if(selection == "Contact Support")
                 session.beginDialog("contactDialog");
-        }else{
-            session.send("Nothing selected");
         }
-        session.endDialog();
     }
 ]);
 bot.localePath(path.join(__dirname, './locale'));
