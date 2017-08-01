@@ -20,12 +20,12 @@ var bot = new builder.UniversalBot(connector, [
         builder.Prompts.choice(session, "What do you want to do?", "FAQ|Contact Support", builder.ListStyle.button);
     },
     function(session, results) {
-        session.send(results.response.index);
+        session.send(results.response.entity);
         if(results.response) {
-            var selection = results.response.index;
-            if(selection === 1)
+            var selection = results.response.entity;
+            if(selection === "FAQ")
                 session.beginDialog("faqDialog");
-            else if(selection === 2)
+            else if(selection === "Contact Support")
                 session.beginDialog("contactDialog");
         }
     }
