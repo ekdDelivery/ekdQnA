@@ -43,7 +43,11 @@ var basicQnAMakerDialog = new builder_cognitiveservices.QnAMakerDialog({
 );
 
 
-bot.dialog('faqDialog', basicQnAMakerDialog);
+bot.dialog('faqDialog', [
+    function(session){
+        builder.Prompts.text(session, 'Welcome to the FAQ. Ask me anything related to our services')
+    },
+    basicQnAMakerDialog]);
 bot.dialog('contactDialog', function(session) {
     session.send("You selected to contact support");
     session.endDialog();
