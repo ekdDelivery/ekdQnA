@@ -47,7 +47,11 @@ bot.dialog('faqDialog', [
     function(session){
         builder.Prompts.text(session, 'Welcome to the FAQ. Ask me anything related to our services')
     },
-    basicQnAMakerDialog]);
+    function(session){
+        session.beginDialog('basicQnADialog');
+    }]);
+
+bot.dialog('basicQnADialog', basicQnAMakerDialog);    
 bot.dialog('contactDialog', function(session) {
     session.send("You selected to contact support");
     session.endDialog();
